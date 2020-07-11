@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-3 grid-rows-3 gap-8 min-h-full min-w-full">
+  <div v-if="content" class="grid grid-cols-3 grid-rows-3 gap-8 min-h-full min-w-full">
     <div class="col-span-2 row-span-1 flex flex-col items-start">
       <h1 class="text-4xl mb-4">{{ content.title }}</h1>
       <my-button is-primary @click="showRandomResult">Random</my-button>
@@ -19,6 +19,10 @@
       Result:
       {{ randomResult }}
     </div>
+  </div>
+  <div v-else class="text-center text-lg">
+    Go to <a href="/generate" class="text-blue-600 hover:underline">/generate</a> to
+    generate link for this page
   </div>
 </template>
 
