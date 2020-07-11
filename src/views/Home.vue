@@ -21,7 +21,8 @@
     </div>
   </div>
   <div v-else class="text-center text-lg">
-    Go to <a href="/generate" class="text-blue-600 hover:underline">/generate</a> to
+    Go to
+    <a href="/generate" class="text-blue-600 hover:underline">/generate</a> to
     generate link for this page
   </div>
 </template>
@@ -37,12 +38,18 @@ export default {
   components: { MyButton },
   setup() {
     const route = useRoute();
-    const content = decodeContent(route.query.content);
 
-    const table = content.options.map((option) => ({
-      weight: option.chance,
-      id: option.label,
-    }));
+    let content = undefined;
+    let table = undefined;
+
+    if (route.query.content) {
+      content = decodeContent(route.query.content);
+
+      table = content.options.map(option => ({
+        weight: option.chance,
+        id: option.label
+      }));
+    }
 
     const randomResult = ref("");
 
@@ -66,8 +73,8 @@ export default {
     return {
       content,
       randomResult,
-      showRandomResult,
+      showRandomResult
     };
-  },
+  }
 };
 </script>
