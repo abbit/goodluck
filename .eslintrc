@@ -8,5 +8,6 @@
     "vue/valid-template-root": "off",
     "vue/singleline-html-element-content-newline": "off",
     "vue/multiline-html-element-content-newline": "off",
+    "vue/no-dupe-v-else-if": "off"
   }
 }

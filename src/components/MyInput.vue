@@ -1,7 +1,8 @@
 <template>
   <input
     v-model="inputValue"
-    class="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block appearance-none leading-normal"
+    :name="name"
+    class="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block appearance-none leading-normal w-full"
   />
 </template>
 
@@ -15,6 +16,10 @@ export default {
       type: [String, Number],
       required: true,
     },
+    name: {
+      type: String,
+      default: "",
+    },
   },
   setup(props, { emit }) {
     return {
@@ -23,3 +28,13 @@ export default {
   },
 };
 </script>
+
+<style lang="postcss" scoped>
+input[type="number"] {
+  @apply px-1;
+
+  @media (min-width: 640px) {
+    @apply px-4;
+  }
+}
+</style>

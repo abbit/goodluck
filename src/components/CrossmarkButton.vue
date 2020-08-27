@@ -1,5 +1,7 @@
 <template>
-  <button class="text-red-600 hover:text-red-700 w-8 h-8 flex justify-center items-center">
+  <button
+    class="text-red-600 hover:text-red-700 w-8 h-8 flex justify-center items-center"
+  >
     <svg fill="currentColor" viewBox="0 0 20 20" class="w-6 h-6">
       <path
         fill-rule="evenodd"
@@ -10,9 +12,8 @@
   </button>
 </template>
 
-
 <script>
 export default {
-  name: "CrossButton"
+  name: "CrossmarkButton",
 };
 </script>
