@@ -10,7 +10,11 @@
     <div class="col-start-3 row-start-1 row-end-4">
       <h3 class="text-xl font-medium mb-2">Result options:</h3>
       <ul>
-        <li v-for="option in content.options" :key="option" class="list-disc ml-8">
+        <li
+          v-for="option in content.options"
+          :key="option"
+          class="list-disc ml-8"
+        >
           <p class="text-base mb-2">{{ option.label }}</p>
         </li>
       </ul>
@@ -25,8 +29,8 @@
   </div>
   <div v-else class="text-center text-lg">
     Go to
-    <a href="/generate" class="text-blue-600 hover:underline">/generate</a> to generate
-    link for this page
+    <a href="/generate" class="text-blue-600 hover:underline">/generate</a> to
+    generate link for this page
   </div>
 </template>
 

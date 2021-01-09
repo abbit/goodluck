@@ -2,7 +2,7 @@
   <input
     v-model="inputValue"
     :name="name"
-    class="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block appearance-none leading-normal w-full"
+    class="bg-white focus:outline-none focus:ring border border-gray-300 rounded-lg py-2 px-4 block appearance-none leading-normal w-full"
   />
 </template>
 

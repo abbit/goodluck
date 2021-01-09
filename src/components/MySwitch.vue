@@ -38,11 +38,8 @@ export default {
 }
 
 .toggle-checkbox:checked {
+  @apply text-purple-600;
   @apply border-purple-600;
   transform: translateX(16px);
-}
-
-.toggle-checkbox:checked + .toggle-label {
-  @apply bg-purple-600;
 }
 </style>

@@ -1,6 +1,11 @@
 <template>
   <my-label name="title" label="Title" class="text-xl font-medium" />
-  <my-input v-model="state.title" name="title" type="text" class="mb-12 text-2xl" />
+  <my-input
+    v-model="state.title"
+    name="title"
+    type="text"
+    class="mb-12 text-2xl"
+  />
 
   <div
     v-for="(option, index) in state.options"
@@ -13,8 +18,18 @@
     </div>
 
     <div class="w-1/6">
-      <my-label name="lable" label="Option chance (in %)" class="text-sm font-light" />
-      <my-input v-model="option.chance" name="chance" type="number" min="0" max="100" />
+      <my-label
+        name="lable"
+        label="Option chance (in %)"
+        class="text-sm font-light"
+      />
+      <my-input
+        v-model="option.chance"
+        name="chance"
+        type="number"
+        min="0"
+        max="100"
+      />
     </div>
 
     <crossmark-button class="mb-2" @click="removeOption(index)" />
@@ -38,7 +53,9 @@
     {{ isCopied ? "Copied!" : "Copy link to clipboard" }}
   </my-button>
 
-  <div v-if="errorMessage" class="mt-4 py-4 text-red-700 text-lg">{{ errorMessage }}</div>
+  <div v-if="errorMessage" class="mt-4 py-4 text-red-700 text-lg">
+    {{ errorMessage }}
+  </div>
   <div v-else id="link" class="mt-4 p-4 bg-white" contenteditable>
     {{ link }}
   </div>

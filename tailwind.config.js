@@ -9,7 +9,5 @@ module.exports = {
     // etc.
   ],
   theme: {},
-  future: {
-    removeDeprecatedGapUtilities: true,
-  },
+  plugins: [require("@tailwindcss/forms")],
 };
