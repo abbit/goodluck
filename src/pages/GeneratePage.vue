@@ -1,5 +1,5 @@
 <template>
-  <my-label name="title" label="Title" class="text-xl font-medium" />
+  <my-label name="title" label="Title" class="text-2xl font-medium" />
   <my-input
     v-model="state.title"
     name="title"
@@ -13,16 +13,12 @@
     class="flex justify-between items-end mb-5"
   >
     <div class="w-2/3">
-      <my-label name="label" label="Option label" class="text-sm font-light" />
+      <my-label name="label" label="Option label" />
       <my-input v-model="option.label" name="label" type="text" />
     </div>
 
     <div class="w-1/6">
-      <my-label
-        name="lable"
-        label="Option chance (in %)"
-        class="text-sm font-light"
-      />
+      <my-label name="lable" label="Option chance (in %)" />
       <my-input
         v-model="option.chance"
         name="chance"

@@ -60,7 +60,5 @@ export const getErrorMessage = (validateStateResult) => {
       return "Please, enter a label's for all options";
     case StateValidEnum.ErrorChanceSum:
       return "Sum of option's chances must be = 100";
-    default:
-      return "Unknown error";
   }
 };
