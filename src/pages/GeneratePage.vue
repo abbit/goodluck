@@ -33,8 +33,22 @@
 
   <div class="flex justify-end items-center">
     <div class="mr-8 flex">
-      <p class="mr-2">Equal chances</p>
-      <my-switch v-model="state.isChancesEqual" />
+      <SwitchGroup as="div" class="flex items-center space-x-4">
+        <SwitchLabel>Equal chances</SwitchLabel>
+
+        <Switch
+          v-slot="{ checked }"
+          v-model="state.isChancesEqual"
+          as="button"
+          class="relative inline-flex flex-shrink-0 h-6 transition-colors duration-200 ease-in-out border-2 border-transparent rounded-full cursor-pointer w-11 focus:outline-none focus:shadow-outline"
+          :class="state.isChancesEqual ? 'bg-purple-600' : 'bg-gray-400'"
+        >
+          <span
+            class="inline-block w-5 h-5 transition duration-200 ease-in-out transform bg-white rounded-full"
+            :class="{ 'translate-x-5': checked, 'translate-x-0': !checked }"
+          />
+        </Switch>
+      </SwitchGroup>
     </div>
     <p class="mr-4">Chance sum: {{ chanceSum }}</p>
     <my-button @click="addOption">Add option</my-button>
@@ -59,17 +73,25 @@
 
 <script>
 import { reactive, ref, computed, watchEffect } from "vue";
+import { Switch, SwitchGroup, SwitchLabel } from "@headlessui/vue";
 import Clipboard from "clipboard";
 import MyButton from "../components/MyButton.vue";
 import MyInput from "../components/MyInput.vue";
 import MyLabel from "../components/MyLabel.vue";
-import MySwitch from "../components/MySwitch.vue";
 import CrossmarkButton from "../components/CrossmarkButton.vue";
 import { encodeContent } from "../utils";
 import { validateState, getErrorMessage, isStateValid } from "../validators";
 
 export default {
-  components: { MyButton, MyInput, MyLabel, MySwitch, CrossmarkButton },
+  components: {
+    MyButton,
+    MyInput,
+    MyLabel,
+    Switch,
+    SwitchGroup,
+    SwitchLabel,
+    CrossmarkButton,
+  },
   setup() {
     const state = reactive({
       title: "",
