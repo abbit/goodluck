@@ -2,7 +2,7 @@
   <input
     v-model="inputValue"
     :name="name"
-    class="bg-white focus:outline-none focus:ring border border-gray-300 focus:ring-purple-600 rounded-lg py-2 px-4 block appearance-none leading-normal w-full"
+    class="bg-white focus:outline-none focus:ring border border-gray-300 focus:ring-violet-600 rounded-lg py-2 px-4 block appearance-none leading-normal w-full"
   />
 </template>
 
@@ -31,10 +31,6 @@ export default {
 
 <style lang="postcss" scoped>
 input[type="number"] {
-  @apply px-1;
-
-  @media (min-width: 640px) {
-    @apply px-4;
-  }
+  @apply px-1 sm:px-4;
 }
 </style>

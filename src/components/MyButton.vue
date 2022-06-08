@@ -2,8 +2,8 @@
   <button
     class="text-base font-medium py-3 rounded-lg w-48"
     :class="{
-      'bg-purple-600 hover:bg-purple-700 text-white': isPrimary,
-      'text-purple-600 hover:text-purple-700': !isPrimary,
+      'bg-violet-600 hover:bg-violet-700 text-white': isPrimary,
+      'text-violet-600 hover:text-violet-700': !isPrimary,
     }"
   >
     <slot></slot>
