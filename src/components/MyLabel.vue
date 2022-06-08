@@ -2,10 +2,8 @@
   <label :for="name" class="text-gray-600 block">{{ label }}</label>
 </template>
 
-<script>
-export default {
-  name: "MyLabel",
-  props: {
+<script setup>
+const props = defineProps({
     name: {
       type: String,
       required: true,
@@ -14,6 +12,5 @@ export default {
       type: String,
       required: true,
     },
-  },
-};
+})
 </script>

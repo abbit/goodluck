@@ -10,11 +10,8 @@
   </button>
 </template>
 
-<script>
-export default {
-  name: "MyButton",
-  props: {
+<script setup>
+const props = defineProps({
     isPrimary: Boolean,
-  },
-};
+})
 </script>

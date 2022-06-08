@@ -1,6 +1,6 @@
 <template>
-  <my-label name="title" label="Title" class="text-2xl font-medium" />
-  <my-input
+  <MyLabel name="title" label="Title" class="text-2xl font-medium" />
+  <MyInput
     v-model="state.title"
     name="title"
     type="text"
@@ -13,13 +13,13 @@
     class="flex justify-between items-end mb-5"
   >
     <div class="w-2/3">
-      <my-label name="label" label="Option label" />
-      <my-input v-model="option.label" name="label" type="text" />
+      <MyLabel name="label" label="Option label" />
+      <MyInput v-model="option.label" name="label" type="text" />
     </div>
 
     <div class="w-1/6">
-      <my-label name="lable" label="Option chance (in %)" />
-      <my-input
+      <MyLabel name="lable" label="Option chance (in %)" />
+      <MyInput
         v-model="option.chance"
         name="chance"
         type="number"
@@ -28,7 +28,7 @@
       />
     </div>
 
-    <crossmark-button class="mb-2" @click="removeOption(index)" />
+    <CrossmarkButton class="mb-2" @click="removeOption(index)" />
   </div>
 
   <div class="flex justify-end items-center">
@@ -51,17 +51,17 @@
       </SwitchGroup>
     </div>
     <p class="mr-4">Chance sum: {{ chanceSum }}</p>
-    <my-button @click="addOption">Add option</my-button>
+    <MyButton @click="addOption">Add option</MyButton>
   </div>
 
-  <my-button
+  <MyButton
     v-if="!errorMessage"
     id="copyLinkBtn"
     data-clipboard-target="#link"
     is-primary
   >
     {{ isCopied ? "Copied!" : "Copy link to clipboard" }}
-  </my-button>
+  </MyButton>
 
   <div v-if="errorMessage" class="mt-4 py-4 text-red-700 text-lg">
     {{ errorMessage }}
@@ -71,7 +71,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { reactive, ref, computed, watchEffect } from "vue";
 import { Switch, SwitchGroup, SwitchLabel } from "@headlessui/vue";
 import Clipboard from "clipboard";
@@ -82,98 +82,75 @@ import CrossmarkButton from "../components/CrossmarkButton.vue";
 import { encodeContent } from "../utils";
 import { validateState, getErrorMessage, isStateValid } from "../validators";
 
-export default {
-  components: {
-    MyButton,
-    MyInput,
-    MyLabel,
-    Switch,
-    SwitchGroup,
-    SwitchLabel,
-    CrossmarkButton,
-  },
-  setup() {
-    const state = reactive({
-      title: "",
-      isChancesEqual: false,
-      options: [
-        {
-          label: "",
-          chance: 0,
-        },
-      ],
+const state = reactive({
+  title: "",
+  isChancesEqual: false,
+  options: [
+    {
+      label: "",
+      chance: 0,
+    },
+  ],
+});
+
+const chanceSum = computed(() => {
+  if (state.isChancesEqual) {
+    return 100;
+  }
+
+  return state.options.reduce((sum, option) => {
+    return sum + parseFloat(option.chance);
+  }, 0);
+});
+
+const link = ref("");
+
+const errorMessage = ref("this is an error");
+
+const isCopied = ref(false);
+
+const clipboard = new Clipboard("#copyLinkBtn");
+
+function addOption() {
+  state.options.push({
+    label: "",
+    chance: 0,
+  });
+}
+
+function removeOption(index) {
+  state.options.splice(index, 1);
+}
+
+function generateLink() {
+  const url = new URL(window.location.origin);
+
+  url.searchParams.append("content", encodeContent(state));
+
+  link.value = url.href;
+}
+
+watchEffect(() => {
+  if (state.isChancesEqual) {
+    state.options = state.options.map((opt) => {
+      opt.chance = ((1 / state.options.length) * 100).toFixed(2);
+      return opt;
     });
+  }
+  const validateStateResult = validateState(state, chanceSum.value);
 
-    const chanceSum = computed(() => {
-      if (state.isChancesEqual) {
-        return 100;
-      }
+  if (isStateValid(validateStateResult)) {
+    generateLink();
+  }
 
-      return state.options.reduce((sum, option) => {
-        return sum + parseFloat(option.chance);
-      }, 0);
-    });
+  errorMessage.value = getErrorMessage(validateStateResult);
+});
 
-    const link = ref("");
+clipboard.on("success", () => {
+  isCopied.value = true;
 
-    const errorMessage = ref("this is an error");
-
-    const isCopied = ref(false);
-
-    const clipboard = new Clipboard("#copyLinkBtn");
-
-    function addOption() {
-      state.options.push({
-        label: "",
-        chance: 0,
-      });
-    }
-
-    function removeOption(index) {
-      state.options.splice(index, 1);
-    }
-
-    function generateLink() {
-      const url = new URL(window.location.origin);
-
-      url.searchParams.append("content", encodeContent(state));
-
-      link.value = url.href;
-    }
-
-    watchEffect(() => {
-      if (state.isChancesEqual) {
-        state.options = state.options.map((opt) => {
-          opt.chance = ((1 / state.options.length) * 100).toFixed(2);
-          return opt;
-        });
-      }
-      const validateStateResult = validateState(state, chanceSum.value);
-
-      if (isStateValid(validateStateResult)) {
-        generateLink();
-      }
-
-      errorMessage.value = getErrorMessage(validateStateResult);
-    });
-
-    clipboard.on("success", () => {
-      isCopied.value = true;
-
-      setTimeout(() => {
-        isCopied.value = false;
-      }, 2000);
-    });
-
-    return {
-      state,
-      link,
-      chanceSum,
-      isCopied,
-      errorMessage,
-      addOption,
-      removeOption,
-    };
-  },
-};
+  setTimeout(() => {
+    isCopied.value = false;
+  }, 2000);
+});
 </script>

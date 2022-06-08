@@ -6,12 +6,10 @@
   />
 </template>
 
-<script>
-import { useModelWrapper } from "../utils";
+<script setup>
+import { computed } from "vue";
 
-export default {
-  name: "MyInput",
-  props: {
+const props = defineProps({
     modelValue: {
       type: [String, Number],
       required: true,
@@ -20,13 +18,14 @@ export default {
       type: String,
       default: "",
     },
-  },
-  setup(props, { emit }) {
-    return {
-      inputValue: useModelWrapper(props, emit),
-    };
-  },
-};
+})
+
+const emit = defineEmits(['update:modelValue'])
+
+const inputValue = computed({
+    get: () => props['modelValue'],
+    set: (value) => emit(`update:modelValue`, value),
+})
 </script>
 
 <style lang="postcss" scoped>

@@ -5,7 +5,7 @@
   >
     <div class="col-span-2 row-span-1 flex flex-col items-start">
       <h1 class="text-4xl mb-4">{{ content.title }}</h1>
-      <my-button is-primary @click="showRandomResult">Random</my-button>
+      <MyButton is-primary @click="showRandomResult">Random</MyButton>
     </div>
     <div class="col-start-3 row-start-1 row-end-4">
       <h3 class="text-xl font-medium mb-2">Result options:</h3>
@@ -34,54 +34,43 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 import MyButton from "../components/MyButton.vue";
 import { decodeContent } from "../utils";
 import rwc from "random-weighted-choice";
 
-export default {
-  components: { MyButton },
-  setup() {
-    const route = useRoute();
+const route = useRoute();
 
-    let content = undefined;
-    let table = undefined;
+let content = undefined;
+let table = undefined;
 
-    if (route.query.content) {
-      content = decodeContent(route.query.content);
+if (route.query.content) {
+  content = decodeContent(route.query.content);
 
-      table = content.options.map((option) => ({
-        weight: parseFloat(option.chance),
-        id: option.label,
-      }));
-    }
+  table = content.options.map((option) => ({
+    weight: parseFloat(option.chance),
+    id: option.label,
+  }));
+}
 
-    const randomResult = ref("");
+const randomResult = ref("");
 
-    const getRandomResult = () => rwc(table);
+const getRandomResult = () => rwc(table);
 
-    const showRandomResult = () => {
-      const optionsCount = content.options.length;
-      let idx = 0;
+const showRandomResult = () => {
+  const optionsCount = content.options.length;
+  let idx = 0;
 
-      const intervalId = setInterval(() => {
-        randomResult.value = content.options[idx % optionsCount].label;
-        idx++;
-      }, 100);
+  const intervalId = setInterval(() => {
+    randomResult.value = content.options[idx % optionsCount].label;
+    idx++;
+  }, 100);
 
-      setTimeout(() => {
-        clearInterval(intervalId);
-        randomResult.value = getRandomResult();
-      }, 3000);
-    };
-
-    return {
-      content,
-      randomResult,
-      showRandomResult,
-    };
-  },
+  setTimeout(() => {
+    clearInterval(intervalId);
+    randomResult.value = getRandomResult();
+  }, 3000);
 };
 </script>

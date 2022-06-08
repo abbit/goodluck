@@ -12,8 +12,3 @@
   </button>
 </template>
 
-<script>
-export default {
-  name: "CrossmarkButton",
-};
-</script>
