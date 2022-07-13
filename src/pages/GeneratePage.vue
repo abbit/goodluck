@@ -9,7 +9,7 @@
 
   <div
     v-for="(option, index) in state.options"
-    :key="option"
+    :key="option.label"
     class="flex justify-between items-end mb-5"
   >
     <div class="w-2/3">
@@ -71,86 +71,83 @@
   </div>
 </template>
 
-<script setup>
-import { reactive, ref, computed, watchEffect } from "vue";
-import { Switch, SwitchGroup, SwitchLabel } from "@headlessui/vue";
-import Clipboard from "clipboard";
-import MyButton from "../components/MyButton.vue";
-import MyInput from "../components/MyInput.vue";
-import MyLabel from "../components/MyLabel.vue";
-import CrossmarkButton from "../components/CrossmarkButton.vue";
-import { encodeContent } from "../utils";
-import { validateState, getErrorMessage, isStateValid } from "../validators";
+<script setup lang="ts">
+  import { reactive, ref, computed, watchEffect } from "vue"
+  import { Switch, SwitchGroup, SwitchLabel } from "@headlessui/vue"
+  import Clipboard from "clipboard"
+  import MyButton from "../components/MyButton.vue"
+  import MyInput from "../components/MyInput.vue"
+  import MyLabel from "../components/MyLabel.vue"
+  import CrossmarkButton from "../components/CrossmarkButton.vue"
+  import { serializeState } from "../utils"
+  import { validateState, getErrorMessage, isStateValid } from "../validators"
+  import { State } from "../types"
 
-const state = reactive({
-  title: "",
-  isChancesEqual: false,
-  options: [
-    {
+  const state = reactive<State>({
+    title: "",
+    isChancesEqual: false,
+    options: [
+      {
+        label: "",
+        chance: "0",
+      },
+    ],
+  })
+
+  const chanceSum = computed(() => {
+    if (state.isChancesEqual) {
+      return 100
+    }
+
+    return state.options.reduce((sum, option) => {
+      return sum + parseFloat(option.chance)
+    }, 0)
+  })
+
+  const link = ref("")
+
+  const errorMessage = ref("this is an error")
+
+  const isCopied = ref(false)
+
+  const clipboard = new Clipboard("#copyLinkBtn")
+
+  function addOption(): void {
+    state.options.push({
       label: "",
-      chance: 0,
-    },
-  ],
-});
-
-const chanceSum = computed(() => {
-  if (state.isChancesEqual) {
-    return 100;
+      chance: "0",
+    })
   }
 
-  return state.options.reduce((sum, option) => {
-    return sum + parseFloat(option.chance);
-  }, 0);
-});
-
-const link = ref("");
-
-const errorMessage = ref("this is an error");
-
-const isCopied = ref(false);
-
-const clipboard = new Clipboard("#copyLinkBtn");
-
-function addOption() {
-  state.options.push({
-    label: "",
-    chance: 0,
-  });
-}
-
-function removeOption(index) {
-  state.options.splice(index, 1);
-}
-
-function generateLink() {
-  const url = new URL(window.location.origin);
-
-  url.searchParams.append("content", encodeContent(state));
-
-  link.value = url.href;
-}
-
-watchEffect(() => {
-  if (state.isChancesEqual) {
-    state.options = state.options.map((opt) => {
-      opt.chance = ((1 / state.options.length) * 100).toFixed(2);
-      return opt;
-    });
-  }
-  const validateStateResult = validateState(state, chanceSum.value);
-
-  if (isStateValid(validateStateResult)) {
-    generateLink();
+  function removeOption(index: number): void {
+    state.options.splice(index, 1)
   }
 
-  errorMessage.value = getErrorMessage(validateStateResult);
-});
+  const generateLink = (state: State): string =>
+    `${window.location.origin}/${serializeState(state)}`
 
-clipboard.on("success", () => {
-  isCopied.value = true;
+  watchEffect(() => {
+    if (state.isChancesEqual) {
+      state.options = state.options.map((opt) => ({
+        ...opt,
+        chance: ((1 / state.options.length) * 100).toFixed(2),
+      }))
+    }
 
-  setTimeout(() => {
-    isCopied.value = false;
-  }, 2000);
-});
+    const validateStateResult = validateState(state, chanceSum.value)
+
+    if (isStateValid(validateStateResult)) {
+      link.value = generateLink(state)
+    }
+
+    errorMessage.value = getErrorMessage(validateStateResult)
+  })
+
+  clipboard.on("success", () => {
+    isCopied.value = true
+
+    setTimeout(() => {
+      isCopied.value = false
+    }, 2000)
+  })
 </script>

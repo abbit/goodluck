@@ -1,6 +1,17 @@
 {
+  "root": true,
+  "env": {
+    "browser": true
+  },
   "parser": "vue-eslint-parser",
-  "extends": ["eslint:recommended", "plugin:vue/recommended"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:vue/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "@vue/typescript/recommended",
+    "@vue/prettier"
+  ],
+  "plugins": ["@typescript-eslint"],
   "rules": {
     "vue/html-self-closing": "off",
     "vue/max-attributes-per-line": "off",
@@ -8,6 +19,7 @@
     "vue/valid-template-root": "off",
     "vue/singleline-html-element-content-newline": "off",
     "vue/multiline-html-element-content-newline": "off",
-    "vue/no-dupe-v-else-if": "off"
+    "vue/no-dupe-v-else-if": "off",
+    "@typescript-eslint/explicit-function-return-type": "error"
   }
 }

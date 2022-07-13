@@ -6,30 +6,24 @@
   />
 </template>
 
-<script setup>
-import { computed } from "vue";
+<script setup lang="ts">
+  import { computed } from "vue"
 
-const props = defineProps({
-    modelValue: {
-      type: [String, Number],
-      required: true,
-    },
-    name: {
-      type: String,
-      default: "",
-    },
-})
+  const props = defineProps<{
+    modelValue: string | number
+    name: string
+  }>()
 
-const emit = defineEmits(['update:modelValue'])
+  const emit = defineEmits(["update:modelValue"])
 
-const inputValue = computed({
-    get: () => props['modelValue'],
+  const inputValue = computed({
+    get: () => props["modelValue"],
     set: (value) => emit(`update:modelValue`, value),
-})
+  })
 </script>
 
 <style lang="postcss" scoped>
-input[type="number"] {
-  @apply px-1 sm:px-4;
-}
+  input[type="number"] {
+    @apply px-1 sm:px-4;
+  }
 </style>

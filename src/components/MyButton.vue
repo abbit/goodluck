@@ -10,8 +10,6 @@
   </button>
 </template>
 
-<script setup>
-const props = defineProps({
-    isPrimary: Boolean,
-})
+<script setup lang="ts">
+  defineProps<{ isPrimary?: boolean }>()
 </script>

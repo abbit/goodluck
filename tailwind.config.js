@@ -1,5 +1,5 @@
 /* eslint-disable */
-const defaultTheme = require("tailwindcss/defaultTheme");
+const defaultTheme = require("tailwindcss/defaultTheme")
 
 module.exports = {
   content: [
@@ -10,4 +10,4 @@ module.exports = {
   ],
   theme: {},
   plugins: [require("@tailwindcss/forms")],
-};
+}
