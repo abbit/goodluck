@@ -9,7 +9,7 @@
 
   <div
     v-for="(option, index) in state.options"
-    :key="option.label"
+    :key="index"
     class="flex justify-between items-end mb-5"
   >
     <div class="w-2/3">
@@ -66,7 +66,7 @@
   <div v-if="errorMessage" class="mt-4 py-4 text-red-700 text-lg">
     {{ errorMessage }}
   </div>
-  <div v-else id="link" class="mt-4 p-4 bg-white" contenteditable>
+  <div v-else id="link" class="mt-4 p-4 bg-white break-all" contenteditable>
     {{ link }}
   </div>
 </template>
