@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router"
 import HomePage from "./pages/HomePage.vue"
 import GeneratePage from "./pages/GeneratePage.vue"
-import RandomPage from "./pages/RandomPage.vue"
+import LuckPage from "./pages/LuckPage.vue"
 
 const routes = [
   {
@@ -14,7 +14,7 @@ const routes = [
   },
   {
     path: "/:state",
-    component: RandomPage,
+    component: LuckPage,
   },
 ]
 

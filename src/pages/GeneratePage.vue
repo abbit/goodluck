@@ -54,20 +54,24 @@
     <MyButton @click="addOption">Add option</MyButton>
   </div>
 
-  <MyButton
-    v-if="!errorMessage"
-    id="copyLinkBtn"
-    data-clipboard-target="#link"
-    is-primary
-  >
-    {{ isCopied ? "Copied!" : "Copy link to clipboard" }}
-  </MyButton>
+  <div v-if="!errorMessage" class="flex gap-8 items-center">
+    <RouterLink
+      :to="luckPagePath"
+      class="text-base font-medium py-3 rounded-lg w-48 bg-violet-600 hover:bg-violet-700 text-white text-center"
+    >
+      Go to Luck page
+    </RouterLink>
+
+    <MyButton id="copyLinkBtn" data-clipboard-target="#link">
+      {{ isCopied ? "Copied!" : "Copy link to clipboard" }}
+    </MyButton>
+  </div>
 
   <div v-if="errorMessage" class="mt-4 py-4 text-red-700 text-lg">
     {{ errorMessage }}
   </div>
   <div v-else id="link" class="mt-4 p-4 bg-white break-all" contenteditable>
-    {{ link }}
+    {{ fullLink }}
   </div>
 </template>
 
@@ -104,7 +108,8 @@
     }, 0)
   })
 
-  const link = ref("")
+  const luckPagePath = ref("")
+  const fullLink = ref("")
 
   const errorMessage = ref("this is an error")
 
@@ -123,9 +128,6 @@
     state.options.splice(index, 1)
   }
 
-  const generateLink = (state: State): string =>
-    `${window.location.origin}/${serializeState(state)}`
-
   watchEffect(() => {
     if (state.isChancesEqual) {
       state.options = state.options.map((opt) => ({
@@ -137,7 +139,8 @@
     const validateStateResult = validateState(state, chanceSum.value)
 
     if (isStateValid(validateStateResult)) {
-      link.value = generateLink(state)
+      luckPagePath.value = serializeState(state)
+      fullLink.value = `${window.location.origin}/${luckPagePath.value}`
     }
 
     errorMessage.value = getErrorMessage(validateStateResult)
