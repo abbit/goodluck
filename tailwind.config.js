@@ -1,13 +1,8 @@
-/* eslint-disable */
-const defaultTheme = require("tailwindcss/defaultTheme")
-
-module.exports = {
-  content: [
-    "./index.html",
-    "./src/**/*.vue",
-    "./src/**/*.js",
-    // etc.
-  ],
-  theme: {},
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ["./index.html", "./src/**/*.{js,ts,svelte}"],
+  theme: {
+    extend: {},
+  },
   plugins: [require("@tailwindcss/forms")],
-}
+};

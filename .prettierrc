@@ -1,4 +1,6 @@
 {
-  "semi": false,
-  "vueIndentScriptAndStyle": true
+    "plugins": [
+        "prettier-plugin-svelte",
+        "prettier-plugin-tailwindcss"
+    ]
 }

@@ -1,50 +1,39 @@
 {
   "name": "goodluck",
-  "version": "0.0.1",
   "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint --ext .ts,vue --ignore-path .gitignore .",
-    "typecheck": "vue-tsc --noEmit",
-    "check": "npm run typecheck && npm run lint",
-    "prepare": "husky install"
-  },
-  "dependencies": {
-    "@headlessui/vue": "^1.6.7",
-    "@iamabbit/base64url": "^1.0.0",
-    "@tailwindcss/forms": "^0.5.2",
-    "@types/pako": "^2.0.0",
-    "@vitejs/plugin-vue": "^3.0.0",
-    "@vue/compiler-sfc": "^3.2.37",
-    "autoprefixer": "^10.4.7",
-    "clipboard": "^2.0.11",
-    "pako": "^2.0.4",
-    "postcss": "^8.4.14",
-    "random-weighted-choice": "^0.1.4",
-    "tailwindcss": "^3.1.6",
-    "vite": "^3.0.0",
-    "vue": "^3.2.37",
-    "vue-router": "^4.1.2"
+    "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.30.6",
-    "@typescript-eslint/parser": "^5.30.6",
-    "@vue/eslint-config-prettier": "^7.0.0",
-    "@vue/eslint-config-typescript": "^11.0.0",
-    "eslint": "^8.19.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-vue": "^9.2.0",
-    "husky": "^8.0.1",
-    "lint-staged": "^13.0.3",
-    "prettier": "^2.7.1",
-    "typescript": "^4.7.4",
-    "vue-eslint-parser": "^9.0.3",
-    "vue-tsc": "^0.38.5"
+    "@sveltejs/vite-plugin-svelte": "^2.4.2",
+    "@tailwindcss/forms": "^0.5.4",
+    "@tsconfig/svelte": "^5.0.0",
+    "@types/pako": "^2.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.2.0",
+    "@typescript-eslint/parser": "^6.2.0",
+    "autoprefixer": "^10.4.14",
+    "eslint": "^8.45.0",
+    "eslint-plugin-svelte": "^2.32.4",
+    "postcss": "^8.4.27",
+    "prettier": "^3.0.0",
+    "prettier-plugin-svelte": "^3.0.1",
+    "prettier-plugin-tailwindcss": "^0.4.1",
+    "svelte": "^4.1.1",
+    "svelte-check": "^3.4.6",
+    "svelte-routing": "^2.0.0",
+    "tailwindcss": "^3.3.3",
+    "tslib": "^2.6.0",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5"
   },
-  "lint-staged": {
-    "*.{ts,vue}": "eslint && vue-tsc --noEmit",
-    "*": "prettier --write -u"
+  "dependencies": {
+    "@iamabbit/base64url": "^1.0.0",
+    "pako": "^2.1.0",
+    "random-weighted-choice": "^0.1.4"
   }
 }

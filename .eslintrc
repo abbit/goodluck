@@ -3,23 +3,26 @@
   "env": {
     "browser": true
   },
-  "parser": "vue-eslint-parser",
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "tsconfig.json",
+    "extraFileExtensions": [".svelte"]
+  },
+  "ignorePatterns": ["*.config.[jt]s"],
+  "overrides": [
+    {
+      "files": ["*.svelte"],
+      "parser": "svelte-eslint-parser",
+      "parserOptions": {
+        "parser": "@typescript-eslint/parser"
+      }
+    }
+  ],
   "extends": [
     "eslint:recommended",
-    "plugin:vue/recommended",
-    "plugin:@typescript-eslint/recommended",
-    "@vue/typescript/recommended",
-    "@vue/prettier"
+    "plugin:svelte/recommended",
+    "plugin:svelte/prettier",
+    "plugin:@typescript-eslint/recommended"
   ],
-  "plugins": ["@typescript-eslint"],
-  "rules": {
-    "vue/html-self-closing": "off",
-    "vue/max-attributes-per-line": "off",
-    "vue/no-multiple-template-root": "off",
-    "vue/valid-template-root": "off",
-    "vue/singleline-html-element-content-newline": "off",
-    "vue/multiline-html-element-content-newline": "off",
-    "vue/no-dupe-v-else-if": "off",
-    "@typescript-eslint/explicit-function-return-type": "error"
-  }
+  "plugins": ["@typescript-eslint"]
 }
