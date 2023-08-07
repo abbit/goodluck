@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@iamabbit/base64url": "^1.0.0",
-    "pako": "^2.1.0",
-    "random-weighted-choice": "^0.1.4"
+    "fraction.js": "^4.2.0",
+    "pako": "^2.1.0"
   }
 }

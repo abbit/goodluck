@@ -1,19 +1,11 @@
 <script lang="ts">
   import Button from "../components/Button.svelte";
-  import rwc from "random-weighted-choice";
-  import { deserializeState } from "../state";
+  import { deserializeState, selectRandomOption } from "../state";
 
   export let state = "";
 
   const stateObj = deserializeState(state);
-  const table = stateObj.options.map((option) => ({
-    weight: parseFloat(option.chance),
-    id: option.label,
-  }));
-
   let result = "";
-
-  const getRandomResult = () => rwc(table);
 
   function showRandomResult() {
     const optionsCount = stateObj.options.length;
@@ -26,7 +18,7 @@
 
     setTimeout(() => {
       clearInterval(intervalId);
-      result = getRandomResult();
+      result = selectRandomOption(stateObj).label;
     }, 3000);
   }
 </script>
@@ -37,7 +29,7 @@
     <Button primary on:click={showRandomResult}>Random</Button>
   </div>
   <div class="col-start-3 row-start-1 row-end-4">
-    <h3 class="text-xl font-medium mb-2">Result options:</h3>
+    <h3 class="text-xl font-medium mb-2">Options:</h3>
     <ul>
       {#each stateObj.options as option (option.label)}
         <li class="list-disc ml-8">
@@ -50,7 +42,6 @@
     <div
       class="col-span-1 col-start-2 row-span-1 text-4xl flex justify-center items-center"
     >
-      Result:
       {result}
     </div>
   {/if}

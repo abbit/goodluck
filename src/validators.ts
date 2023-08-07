@@ -1,11 +1,10 @@
-import { getTotalChance, type Option, type State } from "./state";
+import type { Option, State } from "./state";
 
 export enum StateValidationStatus {
   Valid = "Valid",
   ErrorTitle = "ErrorTitle",
   ErrorOptionsLength = "ErrorOptionsLength",
   ErrorOptionsLabels = "ErrorOptionsLabels",
-  ErrorTotalChance = "ErrorTotalChance",
 }
 
 export const StateValidationErrors: Record<StateValidationStatus, string> = {
@@ -13,7 +12,6 @@ export const StateValidationErrors: Record<StateValidationStatus, string> = {
   ErrorTitle: "Please, enter a title",
   ErrorOptionsLength: "There must be at least 1 option",
   ErrorOptionsLabels: "Please, enter a label's for all options",
-  ErrorTotalChance: "Sum of option's chances must be = 100",
 };
 
 const validateTitle = (title: string): boolean => title !== "";
@@ -31,9 +29,6 @@ const validateOptionsLabels = (options: Option[]): boolean => {
   return true;
 };
 
-const validateTotalChance = (totalChance: number): boolean =>
-  totalChance == 100;
-
 export function validateState(state: State): StateValidationStatus {
   if (!validateTitle(state.title)) {
     return StateValidationStatus.ErrorTitle;
@@ -43,10 +38,6 @@ export function validateState(state: State): StateValidationStatus {
   }
   if (!validateOptionsLabels(state.options)) {
     return StateValidationStatus.ErrorOptionsLabels;
-  }
-
-  if (!validateTotalChance(getTotalChance(state))) {
-    return StateValidationStatus.ErrorTotalChance;
   }
 
   return StateValidationStatus.Valid;
