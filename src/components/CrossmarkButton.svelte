@@ -1,10 +1,5 @@
-<script lang="ts">
-  let class_ = "";
-  export { class_ as class };
-</script>
-
 <button
-  class="text-red-600 hover:text-red-700 w-8 h-8 flex justify-center items-center {class_}"
+  class="text-red-600 hover:text-red-700 w-8 h-8 flex justify-center items-center {$$props.class}"
   on:click
 >
   <svg fill="currentColor" viewBox="0 0 20 20" class="w-6 h-6">

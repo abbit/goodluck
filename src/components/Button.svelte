@@ -1,12 +1,22 @@
 <script lang="ts">
   export let primary = false;
+  export let noAnimation = false;
 </script>
 
-<button
-  on:click
-  class="text-base font-medium py-3 rounded-lg w-48 {primary
-    ? 'bg-violet-600 hover:bg-violet-700 text-white'
-    : 'text-violet-600 hover:text-violet-700'}"
->
+<button on:click class:primary class:noAnimation>
   <slot />
 </button>
+
+<style lang="postcss">
+  button {
+    @apply flex w-48 items-center justify-center rounded-lg border-2 border-transparent py-3 text-base font-medium text-violet-600;
+
+    &.primary {
+      @apply bg-violet-600 text-white transition duration-200 ease-out hover:bg-violet-700 active:scale-95;
+    }
+
+    &.noAnimation {
+      @apply transition-none active:scale-100;
+    }
+  }
+</style>

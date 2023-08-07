@@ -138,11 +138,8 @@
   </div>
 {:else}
   <div class="flex gap-8 items-center">
-    <Link
-      to={luckPagePath}
-      class="text-base font-medium py-3 rounded-lg w-48 bg-violet-600 hover:bg-violet-700 text-white text-center"
-    >
-      Go to Luck page
+    <Link to={luckPagePath}>
+      <Button primary noAnimation>Go to Luck page</Button>
     </Link>
     <Button on:click={copyLinkToClipboard}>
       {isCopied ? "Copied!" : "Copy link to clipboard"}
