@@ -12,6 +12,7 @@
     setEqualWeights,
     setTitle,
     setOptionWeight,
+    updateWeights,
   } from "../state";
   import {
     validateState,
@@ -20,25 +21,30 @@
   } from "../validators";
   import { Link } from "svelte-routing";
   import Switch from "../components/Switch.svelte";
-  import Fraction from "fraction.js";
 
-  let title = "?";
-  let weights = ["1"]; // input field values are stored separately from state, because they can be invalid fractions (e.g. "abc123")
+  let weights = ["1"]; // input field values are stored separately from state, because they can be invalid at the moment (e.g. "1/" for 1/2)
   let isWeightsEqual = true;
   $: if (isWeightsEqual) {
     weights = weights.map(() => "1");
   }
 
   let state = initState();
-  $: state = setTitle(state, title); // updates state title when title or state itself changes
+  let error = "";
   $: state = setEqualWeights(state, isWeightsEqual); // updates state options weights when isWeightsEqual or state itself changes
-  $: totalWeight = getTotalWeight(state).toFraction(true);
+  $: {
+    try {
+      state = updateWeights(state, weights);
+      error = "";
+    } catch (e) {
+      error = e.message;
+    }
+  }
+  $: totalWeight = error ? "-" : getTotalWeight(state).toFraction(true);
 
   let luckPagePath = "";
   let fullLink = "";
-  let error = "";
 
-  $: {
+  $: if (error === "") {
     const stateValidationStatus = validateState(state);
     error = getStateValidationErrorMessage(stateValidationStatus);
 
@@ -56,23 +62,6 @@
   function removeOption(index: number) {
     weights = weights.filter((_, i) => i !== index);
     state = removeOptionFromState(state, index);
-  }
-
-  function updateWeight(event: Event, index: number) {
-    let weightString = (event.target as HTMLInputElement).value;
-    weightString = weightString.replace(",", ".");
-    if (weightString.endsWith(".")) {
-      weightString += "0";
-    }
-
-    try {
-      const frac = new Fraction(weightString);
-      state = setOptionWeight(state, index, frac);
-      isWeightsEqual = false;
-    } catch (e) {
-      console.error(e);
-      error = `Invalid weight value "${weightString}" for option ${index + 1}`;
-    }
   }
 
   let isCopied = false;
@@ -93,7 +82,12 @@
 </script>
 
 <Label name="title" label="Title" class="text-2xl font-medium" />
-<Input bind:value={title} name="title" type="text" class="mb-8 text-2xl" />
+<Input
+  bind:value={state.title}
+  name="title"
+  type="text"
+  class="mb-8 text-2xl"
+/>
 
 {#each state.options as _, index (index)}
   <div class="flex flex-col mb-4">
@@ -112,7 +106,7 @@
         <Label name="weight" label="Weight" />
         <Input
           bind:value={weights[index]}
-          on:input={(e) => updateWeight(e, index)}
+          on:beforeinput={() => (isWeightsEqual = false)}
           name="weight"
           inputmode="decimal"
         />

@@ -34,7 +34,7 @@ export const deserializeState = (str: string): State => {
 };
 
 export const initState = (): State => ({
-  title: "",
+  title: "?",
   options: [
     {
       label: "1",
@@ -82,6 +82,29 @@ export const setOptionWeight = (
     i === index ? { ...opt, weight } : opt,
   ),
 });
+
+export const updateWeights = (state: State, weights: string[]): State => {
+  const weightsStrings = weights.map((w) => {
+    w = w.replace(",", ".");
+    if (w.endsWith(".")) {
+      w += "0";
+    }
+    return w;
+  });
+
+  weightsStrings.forEach((weightString, index) => {
+    try {
+      const frac = new Fraction(weightString);
+      state = setOptionWeight(state, index, frac);
+    } catch {
+      throw new Error(
+        `Invalid weight value "${weightString}" for option ${index + 1}`,
+      );
+    }
+  });
+
+  return state;
+};
 
 export function setEqualWeights(state: State, isEqual: boolean): State {
   if (isEqual) {

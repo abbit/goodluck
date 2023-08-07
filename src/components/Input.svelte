@@ -3,7 +3,7 @@
   export let error = false;
 </script>
 
-<input {...$$restProps} bind:value on:input class:error />
+<input {...$$restProps} bind:value on:input on:beforeinput class:error />
 
 <style lang="postcss">
   input {
