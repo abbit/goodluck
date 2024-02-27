@@ -22,7 +22,9 @@
   import { Link } from "svelte-routing";
   import Switch from "../components/Switch.svelte";
 
-  let weights = ["1"]; // input field values are stored separately from state, because they can be invalid at the moment (e.g. "1/" for 1/2)
+  // input fields' values are stored separately from state,
+  // because they can be invalid at some moment (e.g. "1/" for 1/2)
+  let weights = ["1"];
   let isWeightsEqual = true;
   $: if (isWeightsEqual) {
     weights = weights.map(() => "1");
@@ -30,7 +32,9 @@
 
   let state = initState();
   let error = "";
-  $: state = setEqualWeights(state, isWeightsEqual); // updates state options weights when isWeightsEqual or state itself changes
+
+  // update state options weights when isWeightsEqual or state itself changes
+  $: state = setEqualWeights(state, isWeightsEqual);
   $: {
     try {
       state = updateWeights(state, weights);
@@ -117,13 +121,15 @@
   </div>
 {/each}
 
-<div class="flex justify-end items-center mb-4">
-  <div class="mr-8 flex">
-    <Label name="equal-weights" label="Equal weights" class="mr-2" />
-    <Switch bind:checked={isWeightsEqual} />
-  </div>
-  <p class="mr-4">Total weight: {totalWeight}</p>
+<div class="flex justify-between items-center mb-4">
   <Button on:click={addOption}>Add option</Button>
+  <div class="mr-8 flex">
+    <div class="mr-8 flex">
+      <Label name="equal-weights" label="Equal weights" class="mr-2" />
+      <Switch bind:checked={isWeightsEqual} />
+    </div>
+    <p class="mr-4">Total weight: {totalWeight}</p>
+  </div>
 </div>
 
 {#if error}
